@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "036719cd-5763-4655-82a0-102f695d5ca8",
+		"name": "get-user-from-post",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get post by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[pm.environment.get(\"url\") + \"Status code is 200 \"] = responseCode.code === 200;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"GET posts 1 userId is 1\"] = jsonData.userId === 1;\r",
+							"\r",
+							"pm.collectionVariables.set(\"userId\", jsonData.userId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/posts/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user by userId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[pm.environment.get(\"url\") + \"Status code is 200 \"] = responseCode.code === 200;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"GET users 1 name is Leanne Graham\"] = jsonData.name === \"Leanne Graham\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/{{userId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "userId",
+			"value": ""
+		}
+	]
+}
