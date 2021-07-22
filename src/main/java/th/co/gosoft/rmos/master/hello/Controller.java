@@ -35,6 +35,6 @@ public class Controller {
         if("tanabut".equalsIgnoreCase(helloRequest.getName()))
             return new ResponseEntity<String>("1", HttpStatus.CREATED);
 
-        throw new RuntimeException("invalid body");
+        throw new InvalidNameException();
     }
 }
