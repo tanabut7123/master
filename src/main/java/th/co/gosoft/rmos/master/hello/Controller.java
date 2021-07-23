@@ -15,7 +15,7 @@ public class Controller {
     }
 
     @GetMapping(path="/hello")
-    public List<Response> getAll(@RequestParam(defaultValue = "1") String type) {
+    public List<Response> getAll(@RequestParam String type) {
         List<Response> responseList = new ArrayList<>();
         responseList.add(new Response("A"));
         responseList.add(new Response("B"));
@@ -32,6 +32,9 @@ public class Controller {
 
     @PostMapping(path="/hello")
     public ResponseEntity<String> post(@RequestBody HelloRequest helloRequest) {
+        if(helloRequest.getAge() > 100 || helloRequest.getAge() < 18)
+            throw new InvalidAgeException();
+
         if("tanabut".equalsIgnoreCase(helloRequest.getName()))
             return new ResponseEntity<String>("1", HttpStatus.CREATED);
 
