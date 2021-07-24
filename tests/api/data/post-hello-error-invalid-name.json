@@ -1,0 +1,11 @@
+[
+    {
+		"name": "KARAN",
+		"age": 20,
+        "response": {
+            "status": 400,
+            "errorCode": "SYM00001",
+            "errorMessage": "Error Jaaaaaaaa."
+        }
+    }
+]

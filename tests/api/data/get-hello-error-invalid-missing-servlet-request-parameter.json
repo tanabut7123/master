@@ -1,0 +1,9 @@
+[
+    {
+		"response": {
+            "status": 400,
+			"errorCode": "SYM00003",
+			"errorMessage": "Required request parameter 'type' for method parameter type String is not present"
+		}
+    }
+]

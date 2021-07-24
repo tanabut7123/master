@@ -7,12 +7,66 @@
 	"item": [
 		{
 			"name": "POST hello",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is \" + data[\"response\"][\"status\"], function () {\r",
+							"    pm.response.to.have.status(data[\"response\"][\"status\"]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body is correct\", function () {\r",
+							"    pm.response.to.have.body(data[\"response\"][\"body\"]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"request_name\", data[\"request\"][\"name\"]);\r",
+							"pm.collectionVariables.set(\"request_age\", data[\"request\"][\"age\"]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
-				"url": null
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{request_name}}\",\r\n    \"age\": {{request_age}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/hello",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"hello"
+					]
+				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "request_name",
+			"value": ""
+		},
+		{
+			"key": "request_age",
+			"value": ""
 		}
 	]
 }

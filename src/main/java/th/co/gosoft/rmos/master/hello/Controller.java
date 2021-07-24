@@ -2,11 +2,14 @@ package th.co.gosoft.rmos.master.hello;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+@Validated
 @RestController
 public class Controller {
     @GetMapping(path="/hello/{name}")
@@ -31,13 +34,7 @@ public class Controller {
     }
 
     @PostMapping(path="/hello")
-    public ResponseEntity<String> post(@RequestBody HelloRequest helloRequest) {
-        if(helloRequest.getAge() > 100 || helloRequest.getAge() < 18)
-            throw new InvalidAgeException();
-
-        if("tanabut".equalsIgnoreCase(helloRequest.getName()))
-            return new ResponseEntity<String>("1", HttpStatus.CREATED);
-
-        throw new InvalidNameException();
+    public ResponseEntity<String> post(@Valid @RequestBody HelloRequest helloRequest) {
+        return new ResponseEntity<String>("1", HttpStatus.CREATED);
     }
 }

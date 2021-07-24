@@ -1,0 +1,11 @@
+[
+    {
+		"name": "tanabut",
+		"age": 101,
+        "response": {
+            "status": 400,
+            "errorCode": "SYM00002",
+            "errorMessage": "Error Age Jaaaaaaaa."
+        }
+    }
+]
