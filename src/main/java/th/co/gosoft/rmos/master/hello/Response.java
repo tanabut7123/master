@@ -3,7 +3,10 @@ package th.co.gosoft.rmos.master.hello;
 public class Response {
     private String message;
 
-    Response(String message) {
+    public Response() {
+    }
+
+    public Response(String message) {
         setMessage(message);
     }
 
