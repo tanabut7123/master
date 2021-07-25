@@ -38,15 +38,54 @@ class ControllerTest {
     }
 
     @Test
-    public void getHelloWithNotTypeShouldBeRestClientException() {
+    public void getHelloWithNotTypeShouldBeRestClientExceptionTypeCheckExceptionClass() {
+        assertThrows(RestClientException.class, () -> {
+            testRestTemplate.getForObject("/hello", Response[].class);
+        });
+    }
+
+    @Test
+    public void getHelloWithNotTypeShouldBeRestClientExceptionTypeCheckResponseEntity() {
         ResponseEntity<ErrorResponse> responseEntity = testRestTemplate.getForEntity("/hello", ErrorResponse.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("SYM00003", responseEntity.getBody().getErrorCode());
         assertTrue(responseEntity.getBody().getErrorMessage().contains("'type'"));
+    }
 
-       /* assertThrows(RestClientException.class, () -> {
-            testRestTemplate.getForObject("/hello", Response[].class);
-        });*/
+    @Test
+    public void postHelloWithCorrectHelloRequestShouldBeStatusCREATEDAndBodyIs1() {
+        HelloRequest helloRequest = new HelloRequest();
+        helloRequest.setName("tanabut");
+        helloRequest.setAge(40);
+
+        ResponseEntity<String> responseEntity = testRestTemplate.postForEntity("/hello", helloRequest, String.class);
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals("1", responseEntity.getBody());
+    }
+
+    @Test
+    public void postHelloWithNotScopeAgeShouldBeBadRequest() {
+        HelloRequest helloRequest = new HelloRequest();
+        helloRequest.setName("tanabut");
+        helloRequest.setAge(17);
+
+        ResponseEntity<ErrorResponse> responseEntity = testRestTemplate.postForEntity("/hello", helloRequest, ErrorResponse.class);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("SYM00002", responseEntity.getBody().getErrorCode());
+        assertTrue(responseEntity.getBody().getErrorMessage().contains("'age'"));
+        assertTrue(responseEntity.getBody().getErrorMessage().contains("Min.age"));
+    }
+
+    @Test
+    public void postHelloWithNotNameShouldBeBadRequest() {
+        HelloRequest helloRequest = new HelloRequest();
+        helloRequest.setAge(30);
+
+        ResponseEntity<ErrorResponse> responseEntity = testRestTemplate.postForEntity("/hello", helloRequest, ErrorResponse.class);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("SYM00002", responseEntity.getBody().getErrorCode());
+        assertTrue(responseEntity.getBody().getErrorMessage().contains("'name'"));
+        assertTrue(responseEntity.getBody().getErrorMessage().contains("NotNull.name"));
     }
 }
