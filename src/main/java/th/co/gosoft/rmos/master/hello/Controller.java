@@ -16,9 +16,10 @@ import java.util.List;
 @RestController
 public class Controller {
 
+    HelloService helloService = new HelloService();
+
     @GetMapping(path="/hello/{name}")
     public Response get(@PathVariable String name) {
-        HelloService helloService = new HelloService();
         return helloService.getHello(name);
     }
 
@@ -46,5 +47,9 @@ public class Controller {
     @PostMapping(path="/hello")
     public ResponseEntity<String> post(@Valid @RequestBody HelloRequest helloRequest) {
         return new ResponseEntity<String>("1", HttpStatus.CREATED);
+    }
+
+    public void setHelloService(HelloService helloService) {
+        this.helloService = helloService;
     }
 }
