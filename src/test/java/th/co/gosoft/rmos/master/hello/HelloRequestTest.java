@@ -30,42 +30,93 @@ class HelloRequestTest {
     }
 
     @Test
-    public void notNameShouldBeNotNullName() {
+    public void nameNotNullAge19ShouldBeViolationsIsEmpty() {
         HelloRequest helloRequest = new HelloRequest();
-        helloRequest.setAge(25);
+        helloRequest.setName("tanabut");
+        helloRequest.setAge(19);
+
+        Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
+        assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    public void nameNullAge19ShouldBeViolationsSize1() {
+        HelloRequest helloRequest = new HelloRequest();
+        helloRequest.setAge(19);
 
         Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
         assertFalse(violations.isEmpty());
         assertEquals(1, violations.size());
+        for (ConstraintViolation<HelloRequest> constraintViolation:violations) {
+            assertTrue(constraintViolation.getMessage().contains("null"));
+        }
     }
 
     @Test
-    public void notNameMinScopeAgeShouldBeNullNameAndMinAge() {
-        HelloRequest helloRequest = new HelloRequest();
-        helloRequest.setAge(17);
-
-        Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
-        assertFalse(violations.isEmpty());
-        assertEquals(2, violations.size());
-    }
-
-    @Test
-    public void notNameMaxScopeAgeShouldBeNullNameAndMaxAge() {
-        HelloRequest helloRequest = new HelloRequest();
-        helloRequest.setAge(101);
-
-        Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
-        assertFalse(violations.isEmpty());
-        assertEquals(2, violations.size());
-    }
-
-    @Test
-    public void trueRequestShouldBeViolationsIsEmpty() {
+    public void nameNotNullAge18ShouldBeViolationsIsEmpty() {
         HelloRequest helloRequest = new HelloRequest();
         helloRequest.setName("tanabut");
         helloRequest.setAge(18);
 
         Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
         assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    public void nameNotNullAge99ShouldBeViolationsIsEmpty() {
+        HelloRequest helloRequest = new HelloRequest();
+        helloRequest.setName("tanabut");
+        helloRequest.setAge(99);
+
+        Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
+        assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    public void nameNotNullAge100ShouldBeViolationsIsEmpty() {
+        HelloRequest helloRequest = new HelloRequest();
+        helloRequest.setName("tanabut");
+        helloRequest.setAge(100);
+
+        Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
+        assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    public void nameNotNullAge17ShouldBeViolationsSize1() {
+        HelloRequest helloRequest = new HelloRequest();
+        helloRequest.setName("tanabut");
+        helloRequest.setAge(17);
+
+        Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
+        assertFalse(violations.isEmpty());
+        assertEquals(1, violations.size());
+        for (ConstraintViolation<HelloRequest> constraintViolation:violations) {
+            assertTrue(constraintViolation.getMessage().contains("greater than or equal to 18"));
+        }
+    }
+
+    @Test
+    public void nameNotNullAge101ShouldBeViolationsSize1() {
+        HelloRequest helloRequest = new HelloRequest();
+        helloRequest.setName("tanabut");
+        helloRequest.setAge(101);
+
+        Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
+        assertFalse(violations.isEmpty());
+        assertEquals(1, violations.size());
+        for (ConstraintViolation<HelloRequest> constraintViolation:violations) {
+            assertTrue(constraintViolation.getMessage().contains("less than or equal to 100"));
+        }
+    }
+
+    @Test
+    public void nameNullAge101ShouldBeViolationsSize2() {
+        HelloRequest helloRequest = new HelloRequest();
+        helloRequest.setAge(101);
+
+        Set<ConstraintViolation<HelloRequest>> violations = validator.validate(helloRequest);
+        assertFalse(violations.isEmpty());
+        assertEquals(2, violations.size());
     }
 }
