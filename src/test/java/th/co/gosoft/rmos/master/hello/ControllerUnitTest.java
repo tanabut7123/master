@@ -18,6 +18,12 @@ public class ControllerUnitTest {
         controller.setHelloService(new KaranService());
         assertEquals("Karan", controller.get("tanabut").getMessage());
     }
+
+    @Test
+    public void getHelloWithContructorInjectionKaranService() {
+        Controller controller = new Controller(new KaranService());
+        assertEquals("Karan", controller.get("tanabut").getMessage());
+    }
 }
 
 class KaranService extends HelloService {

@@ -18,6 +18,13 @@ public class Controller {
     @Autowired
     HelloService helloService;
 
+    public Controller(HelloService helloService) {
+        this.helloService = helloService;
+    }
+
+    public Controller() {
+    }
+
     @GetMapping(path="/hello/{name}")
     public Response get(@PathVariable String name) {
         return helloService.getHello(name);
