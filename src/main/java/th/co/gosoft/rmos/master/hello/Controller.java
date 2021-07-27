@@ -15,8 +15,8 @@ import java.util.List;
 @Validated
 @RestController
 public class Controller {
-
-    HelloService helloService = new HelloService();
+    @Autowired
+    HelloService helloService;
 
     @GetMapping(path="/hello/{name}")
     public Response get(@PathVariable String name) {
