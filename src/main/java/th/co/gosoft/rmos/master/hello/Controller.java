@@ -1,20 +1,30 @@
 package th.co.gosoft.rmos.master.hello;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @Validated
 @RestController
 public class Controller {
+
     @GetMapping(path="/hello/{name}")
     public Response get(@PathVariable String name) {
-        return new Response(name);
+        HelloService helloService = new HelloService();
+        return helloService.getHello(name);
+    }
+
+    @GetMapping(path="/helloo")
+    public Response getAll(@RequestParam @Min(50) int count) {
+        return new Response(String.valueOf(count));
     }
 
     @GetMapping(path="/hello")
