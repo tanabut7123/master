@@ -24,6 +24,12 @@ public class ControllerUnitTest {
         Controller controller = new Controller(new KaranService());
         assertEquals("Karan", controller.get("tanabut").getMessage());
     }
+
+    @Test
+    public void getHelloWithMethodInjectionKaranService() {
+        Controller controller = new Controller();
+        assertEquals("Karan", controller.get(new KaranService(), "tanabut").getMessage());
+    }
 }
 
 class KaranService extends HelloService {

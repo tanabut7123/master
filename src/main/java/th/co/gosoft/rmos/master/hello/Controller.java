@@ -59,4 +59,9 @@ public class Controller {
     public void setHelloService(HelloService helloService) {
         this.helloService = helloService;
     }
+
+    public Response get(HelloService helloService, String name) {
+        this.helloService = helloService;
+        return get(name);
+    }
 }
