@@ -11,4 +11,18 @@ public class ControllerUnitTest {
         controller.setHelloService(new HelloService());
         assertEquals("tanabut", controller.get("tanabut").getMessage());
     }
+
+    @Test
+    public void getHelloWithPropertyInjectionKaranService() {
+        Controller controller = new Controller();
+        controller.setHelloService(new KaranService());
+        assertEquals("Karan", controller.get("tanabut").getMessage());
+    }
+}
+
+class KaranService extends HelloService {
+    @Override
+    public Response getHello(String name) {
+        return new Response("Karan");
+    }
 }
