@@ -21,6 +21,7 @@ class ControllerTest {
         Response response = testRestTemplate.getForObject("/hello/tanabut", Response.class);
 
         assertEquals("tanabut", response.getMessage());
+        assertEquals(new Response("tanabut"), response);
     }
 
     @Test
