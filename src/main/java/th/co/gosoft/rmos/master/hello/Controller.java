@@ -1,5 +1,6 @@
 package th.co.gosoft.rmos.master.hello;
 
+import org.apache.catalina.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ import java.util.List;
 public class Controller {
     @Autowired
     HelloService helloService;
+
+    @Autowired
+    private CustomerRepository repository;
 
     public Controller(HelloService helloService) {
         this.helloService = helloService;
@@ -37,23 +41,20 @@ public class Controller {
 
     @GetMapping(path="/hello")
     public List<Response> getAll(@RequestParam String type) {
+        Iterable<Customer> customerIterable = repository.findAll();
         List<Response> responseList = new ArrayList<>();
-        responseList.add(new Response("A"));
-        responseList.add(new Response("B"));
-        responseList.add(new Response("C"));
-        responseList.add(new Response("D"));
 
-        if(!type.equals("1")) {
-            responseList.add(new Response("E"));
-            responseList.add(new Response("F"));
-            responseList.add(new Response("G"));
+        for (Customer customer:customerIterable) {
+            responseList.add(new Response(customer.getFirstName(), Integer.parseInt(customer.getLastName())));
         }
+
         return responseList;
     }
 
     @PostMapping(path="/hello")
     public ResponseEntity<String> post(@Valid @RequestBody HelloRequest helloRequest) {
-        return new ResponseEntity<String>("1", HttpStatus.CREATED);
+        Customer customer = repository.save(new Customer(helloRequest.getName(), String.valueOf(helloRequest.getAge())));
+        return new ResponseEntity<String>(String.valueOf(customer.getId()), HttpStatus.CREATED);
     }
 
     public void setHelloService(HelloService helloService) {
