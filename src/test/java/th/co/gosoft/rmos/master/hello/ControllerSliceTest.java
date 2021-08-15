@@ -25,6 +25,9 @@ public class ControllerSliceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private CustomerRepository customerRepository;
+
     @Test
     public void getHelloWithTanabutShouldBeReturnResponseWithTanabut() throws Exception {
         given(helloService.getHello("tanabut")).willReturn(new Response("karan"));

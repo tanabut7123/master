@@ -16,6 +16,9 @@ class ControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @Test
     public void getHelloWithTanabutShouldBeReturnResponseWithTanabut() {
         Response response = testRestTemplate.getForObject("/hello/tanabut", Response.class);
@@ -26,6 +29,11 @@ class ControllerTest {
 
     @Test
     public void getHelloWithType1ShouldBeSizeOfResponseIs4() {
+        customerRepository.deleteAll();
+        customerRepository.save(new Customer("tanabut", "12"));
+        customerRepository.save(new Customer("tanabut", "23"));
+        customerRepository.save(new Customer("tanabut", "35"));
+        customerRepository.save(new Customer("tanabut", "12"));
         Response[] responses = testRestTemplate.getForObject("/hello?type=1", Response[].class);
 
         assertEquals(4, responses.length);
@@ -33,6 +41,14 @@ class ControllerTest {
 
     @Test
     public void getHelloWithType2ShouldBeSizeOfResponseIs7() {
+        customerRepository.deleteAll();
+        customerRepository.save(new Customer("tanabut", "12"));
+        customerRepository.save(new Customer("tanabut", "23"));
+        customerRepository.save(new Customer("tanabut", "35"));
+        customerRepository.save(new Customer("tanabut", "12"));
+        customerRepository.save(new Customer("tanabut", "23"));
+        customerRepository.save(new Customer("tanabut", "35"));
+        customerRepository.save(new Customer("tanabut", "12"));
         Response[] responses = testRestTemplate.getForObject("/hello?type=2", Response[].class);
 
         assertEquals(7, responses.length);
