@@ -1,37 +1,46 @@
-
 package th.co.gosoft.rmos.master.user;
 
-public class Response {
+import javax.persistence.*;
+import javax.validation.Valid;
 
-    private int id;
+@Entity
+public class User {
+    public User() {
+    }
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="user_id")
+    private Long id;
+
     private String name;
+    @Column(name="user_name")
     private String username;
     private String email;
-    private Address address;
     private String phone;
     private String website;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
     private Company company;
 
-    public Response() {
+    public User(@Valid UserRequest user) {
+        this.name = user.getName();
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.phone = user.getPhone();
+        this.website = user.getWebsite();
     }
 
-    public Response(int id, String name, String username, String email, Address address, String phone, String website, Company company) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.email = email;
-        this.address = address;
-        this.phone = phone;
-        this.website = website;
-        this.company = company;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -59,14 +68,6 @@ public class Response {
         this.email = email;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -81,6 +82,14 @@ public class Response {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Company getCompany() {

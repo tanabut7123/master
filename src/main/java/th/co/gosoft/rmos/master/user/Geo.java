@@ -1,18 +1,24 @@
 
 package th.co.gosoft.rmos.master.user;
 
+import javax.persistence.*;
+
+@Entity
 public class Geo {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="geo_id")
+    private Long id;
 
     private String lat;
     private String lng;
 
-    public Geo() {
+    public Long getId() {
+        return id;
     }
 
-    public Geo(String lat, String lng) {
-        super();
-        this.lat = lat;
-        this.lng = lng;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLat() {
@@ -30,5 +36,4 @@ public class Geo {
     public void setLng(String lng) {
         this.lng = lng;
     }
-
 }

@@ -1,24 +1,34 @@
 
 package th.co.gosoft.rmos.master.user;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
 public class Address {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="address_id")
+    private Long id;
 
     private String street;
     private String suite;
     private String city;
     private String zipcode;
+
+    @OneToOne
+    @JoinColumn(name = "geo_id")
     private Geo geo;
 
-    public Address() {
+    @OneToMany(mappedBy = "address")
+    private List<User> users;
+
+    public Long getId() {
+        return id;
     }
 
-    public Address(String street, String suite, String city, String zipcode, Geo geo) {
-        super();
-        this.street = street;
-        this.suite = suite;
-        this.city = city;
-        this.zipcode = zipcode;
-        this.geo = geo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getStreet() {
@@ -61,4 +71,11 @@ public class Address {
         this.geo = geo;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

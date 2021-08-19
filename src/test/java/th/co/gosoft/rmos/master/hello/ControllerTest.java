@@ -71,14 +71,14 @@ class ControllerTest {
     }
 
     @Test
-    public void postHelloWithCorrectHelloRequestShouldBeStatusCREATEDAndBodyIs1() {
+    public void postHelloWithCorrectHelloRequestShouldBeStatusCREATEDAndBodyIsNotNull() {
+        customerRepository.deleteAll();
         HelloRequest helloRequest = new HelloRequest();
         helloRequest.setName("tanabut");
         helloRequest.setAge(40);
-
         ResponseEntity<String> responseEntity = testRestTemplate.postForEntity("/hello", helloRequest, String.class);
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals("1", responseEntity.getBody());
+        assertNotNull(responseEntity.getBody());
     }
 
     @Test
