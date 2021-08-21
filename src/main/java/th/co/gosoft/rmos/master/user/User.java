@@ -1,5 +1,7 @@
 package th.co.gosoft.rmos.master.user;
 
+import th.co.gosoft.rmos.master.user.request.UserRequest;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 
@@ -8,33 +10,55 @@ public class User {
     public User() {
     }
 
+    public User(@Valid UserRequest userRequest) {
+        this.name = userRequest.getName();
+        this.userName = userRequest.getUsername();
+        setCompany(userRequest.getCompany());
+        this.email = userRequest.getEmail();
+        setAddress(userRequest.getAddress());
+        this.phone = userRequest.getPhone();
+        this.website = userRequest.getWebsite();
+    }
+
+    private void setAddress(th.co.gosoft.rmos.master.user.request.Address addressRequest) {
+        Address address = new Address();
+        address.setStreet(addressRequest.getStreet());
+        address.setCity(addressRequest.getStreet());
+        address.setSuite(addressRequest.getSuite());
+        address.setZipcode(addressRequest.getZipcode());
+        Geo geo = new Geo();
+        geo.setLat(addressRequest.getGeo().getLat());
+        geo.setLng(addressRequest.getGeo().getLng());
+        address.setGeo(geo);
+        this.address = address;
+    }
+
+    private void setCompany(th.co.gosoft.rmos.master.user.request.Company companyRequest) {
+        Company company = new Company();
+        company.setBs(companyRequest.getBs());
+        company.setName(companyRequest.getName());
+        company.setCatchPhrase(companyRequest.getCatchPhrase());
+        this.company = company;
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="user_id")
     private Long id;
 
     private String name;
-    @Column(name="user_name")
-    private String username;
+    private String userName;
     private String email;
     private String phone;
     private String website;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
-
-    public User(@Valid UserRequest user) {
-        this.name = user.getName();
-        this.username = user.getUsername();
-        this.email = user.getEmail();
-        this.phone = user.getPhone();
-        this.website = user.getWebsite();
-    }
 
     public Long getId() {
         return id;
@@ -52,12 +76,12 @@ public class User {
         this.name = name;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {

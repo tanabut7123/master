@@ -16,11 +16,12 @@ public class Address {
     private String city;
     private String zipcode;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "geo_id")
     private Geo geo;
 
     @OneToMany(mappedBy = "address")
+
     private List<User> users;
 
     public Long getId() {
