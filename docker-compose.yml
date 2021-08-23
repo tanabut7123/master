@@ -21,3 +21,11 @@ services:
     restart: always
     ports:
       - 8081:8080
+
+  product-service:
+    build: .
+    image: springio/master-docker:1.0.1
+    ports:
+      - 8080:8080
+    environment:
+      MYSQL_HOST: db
