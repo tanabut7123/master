@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql/mysql-server
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - /Volumes/Data/master/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+
+  product-service:
+    build: .
+    image: springio/master-docker
+    ports:
+      - 8080:8080
+    environment:
+      MYSQL_HOST: db
+      POSTS_GATEWAY_URL: https://sit.jsonplaceholder.typicode.com/posts
