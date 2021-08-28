@@ -13,7 +13,6 @@ public class Gateway {
     @Value("${POSTS_GATEWAY_URL:https://jsonplaceholder.typicode.com/posts}")
     private String url;
 
-
     @Autowired
     private RestTemplate restTemplate;
 
