@@ -17,6 +17,7 @@
 		<java.version>11</java.version>
 		<sonar.organization>tanabut7123</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.projectKey>tanabut7123_master</sonar.projectKey>
 	</properties>
 	<dependencies>
 		<dependency>
